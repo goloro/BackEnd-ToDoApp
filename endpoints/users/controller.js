@@ -1,5 +1,4 @@
 // --- USER CONTROLLER --- //
-
 const userPromises = require('./promises')
 
 async function loginUser (email, password) {

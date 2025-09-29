@@ -10,7 +10,8 @@ app.set('port', process.env.PORT || 3000)
 // MongoDB - CONECCTION
 //mongoose.connect('mongodb+srv://goloro:goloro@golopop.5soj7.mongodb.net/GoloPop?retryWrites=true&w=majority');
 //mongoose.connect('mongodb://localhost:27017/devDash')
-mongoose.connect('mongodb+srv://goloro:goloro@todoapp.9badz.mongodb.net/devDash?retryWrites=true&w=majority')
+//mongoose.connect('mongodb+srv://goloro:goloro@todoapp.9badz.mongodb.net/devDash?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://goloro:goloro@todoapp.fmthlhb.mongodb.net/?retryWrites=true&w=majority&appName=ToDoApp')
 
 
 app.use(express.json());

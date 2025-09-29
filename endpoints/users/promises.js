@@ -1,5 +1,4 @@
 // --- USER PROMISES --- //
-
 const userSchema = require('../../models/usersModel')
 
 async function loginUser (email, password) {
