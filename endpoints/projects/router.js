@@ -1,1 +1,5 @@
-// --- PROJECTS PROMISES --- //
+// --- PROJECTS ROUTER --- //
+const express = require('express');
+const router = express.Router();
+
+module.exports = router

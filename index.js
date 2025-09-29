@@ -5,13 +5,15 @@ const mongoose = require('mongoose')
 
 const app = express();
 // const port = process.env.port || 3000;
-app.set('port', process.env.PORT || 3000)
+app.set('port', process.env.PORT || 3001)
 
 // MongoDB - CONECCTION
 //mongoose.connect('mongodb+srv://goloro:goloro@golopop.5soj7.mongodb.net/GoloPop?retryWrites=true&w=majority');
 //mongoose.connect('mongodb://localhost:27017/devDash')
 //mongoose.connect('mongodb+srv://goloro:goloro@todoapp.9badz.mongodb.net/devDash?retryWrites=true&w=majority')
 mongoose.connect('mongodb+srv://goloro:goloro@todoapp.fmthlhb.mongodb.net/?retryWrites=true&w=majority&appName=ToDoApp')
+.then(() => console.log('✅ Conectado a MongoDB'))
+.catch(err => console.error('❌ Error conectando a MongoDB:', err))
 
 
 app.use(express.json());
@@ -31,4 +33,7 @@ app.use(cors({origin: "*"}))
 
 routerApi(app);
 
-app.listen(app.get('port'));
+app.listen(app.get('port'), () => {
+    console.log('🚀 Servidor iniciado en puerto:', app.get('port'));
+    console.log('📍 URL: http://localhost:' + app.get('port'));
+});
