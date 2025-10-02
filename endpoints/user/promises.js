@@ -58,7 +58,7 @@ async function getUserByEmail (email) {
   }
 }
 
-// Get Projects of a user  MAYBE USELESS
+// Get Projects of a user MAYBE USELESS
 async function getProjectsOfUser (userId) {
   const user = await userSchema.findById(userId)
 
@@ -72,5 +72,8 @@ async function getProjectsOfUser (userId) {
 // EXPORTS
 module.exports = ({
   loginUser,
-  registerUser
+  registerUser,
+  getUserById,
+  getUserByEmail,
+  getProjectsOfUser
 })
