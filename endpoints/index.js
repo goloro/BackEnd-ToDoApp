@@ -1,16 +1,16 @@
 const express = require('express');
 
 // ROUTERS
-const usersRouter = require('./users/router');
-const projectsRouter = require('./projects/router');
+const userRouter = require('./user/router');
 
+// ENDPOINTS
 function endpointsApi(app) {
-    const router = express.Router();
-    app.use('/', router )
+  const router = express.Router();
 
-    router.use('/user', usersRouter);
+  app.use('/', router);
 
-    router.use('/projects', projectsRouter);
+  router.use('/user', userRouter);
 }
 
+// EXPORTS
 module.exports = endpointsApi;

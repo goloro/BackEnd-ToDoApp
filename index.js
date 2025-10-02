@@ -1,39 +1,24 @@
-const express = require('express')
-const routerApi = require('./endpoints')
-const cors = require('cors')
-const mongoose = require('mongoose')
-
+// CONSTANTS
+const express = require('express');
+const mongoose = require('mongoose');
+const routerApi = require('./endpoints');
+const cors = require('cors');
 const app = express();
-// const port = process.env.port || 3000;
-app.set('port', process.env.PORT || 3001)
+const port = 3000;
 
-// MongoDB - CONECCTION
-//mongoose.connect('mongodb+srv://goloro:goloro@golopop.5soj7.mongodb.net/GoloPop?retryWrites=true&w=majority');
-//mongoose.connect('mongodb://localhost:27017/devDash')
-//mongoose.connect('mongodb+srv://goloro:goloro@todoapp.9badz.mongodb.net/devDash?retryWrites=true&w=majority')
-mongoose.connect('mongodb+srv://goloro:goloro@todoapp.fmthlhb.mongodb.net/?retryWrites=true&w=majority&appName=ToDoApp')
-.then(() => console.log('✅ Conectado a MongoDB'))
-.catch(err => console.error('❌ Error conectando a MongoDB:', err))
+app.set('port', process.env.PORT || port);
 
+mongoose.connect('mongodb+srv://goloro:goloro@todoapp.fmthlhb.mongodb.net/ToDoApp?retryWrites=true&w=majority&appName=ToDoApp')
+.then(() => { console.log('✅ Connected to MongoDB') })
+.catch((err) => { console.error('❌ Error connecting to MongoDB', err) })
 
 app.use(express.json());
-
-const whitelist = ["http://127.0.0.1:5500/index.html?", "http://127.0.0.1:5500/index.html"]
-const options = {
-    origin: (origin, callback) => {
-        if (whitelist.includes(origin)) {
-            callback(null, true)
-        } else {
-            callback (new Error('no permitido'), false)
-        }
-    }
-};
-// app.use(cors(options));
-app.use(cors({origin: "*"}))
+app.use(cors({ origin: '*' }));
 
 routerApi(app);
 
 app.listen(app.get('port'), () => {
-    console.log('🚀 Servidor iniciado en puerto:', app.get('port'));
-    console.log('📍 URL: http://localhost:' + app.get('port'));
-});
+  console.log(`🚀 Server listening on port ${app.get('port')}`);
+  console.log(`📭 URL -> http://localhost:${app.get('port')}/`);
+})
+
