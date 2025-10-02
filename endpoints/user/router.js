@@ -17,19 +17,21 @@ router.post('/register', async (req, res) => {
 })
 
 // Get user by ID
-router.get ('/getById', async (req, res) => {
-  res.send(await userController.getUserById(req.query.id))
+router.get ('/getById/:id', async (req, res) => {
+  res.send(await userController.getUserById(req.params.id))
 })
 
 // Get user by email
-router.get ('/getByEmail', async (req, res) => {
-  res.send(await userController.getUserByEmail(req.query.email))
+router.get ('/getByEmail/:email', async (req, res) => {
+  res.send(await userController.getUserByEmail(req.params.email))
 })
 
 // Get projects of user MAYBE USELESS
-router.get ('/getProjects', async (req, res) => {
-  res.send(await userController.getProjectsOfUser(req.query.userId))
+router.get ('/getProjects/:userId', async (req, res) => {
+  res.send(await userController.getProjectsOfUser(req.params.userId))
 })
+
+// TODO: Delete user and all its projects and notes
 
 // EXPORTS
 module.exports = router;

@@ -41,8 +41,10 @@ async function getUserById (userId) {
   const user = await userSchema.findById(userId)
 
   if (user) {
+    console.log(`User found {ID:${userId}}`)
     return { successfull: true, userData: user }
   } else {
+    console.error(`User not found {ID:${userId}}`)
     return { successfull: false, error: 'User not found' }
   }
 }
@@ -52,8 +54,10 @@ async function getUserByEmail (email) {
   const user = await userSchema.findOne({ email: email })
 
   if (user) {
+    console.log(`User found {Email:${email}}`)
     return { successfull: true, userData: user }
   } else {
+    console.error(`User not found {Email:${email}}`)
     return { successfull: false, error: 'User not found' }
   }
 }
@@ -63,8 +67,42 @@ async function getProjectsOfUser (userId) {
   const user = await userSchema.findById(userId)
 
   if (user) {
+    console.log(`User found {ID:${userId}}`)
     return { successfull: true, projects: user.projects }
   } else {
+    console.error(`User not found {ID:${userId}}`)
+    return { successfull: false, error: 'User not found' }
+  }
+}
+
+// Add project to user
+async function addProjectToUser (userId, projectId) {
+  const user = await userSchema.findById(userId)
+
+  if (user) {
+    user.projects.push(projectId)
+    await user.save()
+    
+    console.log(`Project added to user {UserID:${userId}, ProjectID:${projectId}}`)
+    return { successfull: true }
+  } else {
+    console.error(`User not found {ID:${userId}}`)
+    return { successfull: false, error: 'User not found' }
+  }
+}
+
+// Delete project of a user
+async function deleteProjectOfUser (userId, projectId) {
+  const user = await userSchema.findById(userId)
+
+  if (user) {
+    user.projects.pull(projectId)
+    await user.save()
+
+    console.log(`Project deleted from user {UserID:${userId}, ProjectID:${projectId}}`)
+    return { successfull: true }
+  } else {
+    console.error(`User not found {ID:${userId}}`)
     return { successfull: false, error: 'User not found' }
   }
 }
@@ -75,5 +113,7 @@ module.exports = ({
   registerUser,
   getUserById,
   getUserByEmail,
-  getProjectsOfUser
+  getProjectsOfUser,
+  addProjectToUser,
+  deleteProjectOfUser
 })
