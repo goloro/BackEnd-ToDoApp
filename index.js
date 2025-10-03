@@ -1,19 +1,29 @@
+// Load environment variables
+require('dotenv').config();
+
 // CONSTANTS
 const express = require('express');
 const mongoose = require('mongoose');
 const routerApi = require('./endpoints');
 const cors = require('cors');
 const app = express();
-const port = 3000;
 
-app.set('port', process.env.PORT || port);
+app.set('port', process.env.PORT || 3000);
 
-mongoose.connect('mongodb+srv://goloro:goloro@todoapp.fmthlhb.mongodb.net/ToDoApp?retryWrites=true&w=majority&appName=ToDoApp')
+// Secure MongoDB connection using environment variables
+mongoose.connect(process.env.MONGODB_URI)
 .then(() => { console.log('✅ Connected to MongoDB') })
 .catch((err) => { console.error('❌ Error connecting to MongoDB', err) })
 
 app.use(express.json());
-app.use(cors({ origin: '*' }));
+
+// Secure CORS configuration
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:3001',
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 routerApi(app);
 
