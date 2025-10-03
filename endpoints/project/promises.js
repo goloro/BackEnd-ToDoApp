@@ -17,7 +17,7 @@ async function createProject(projectData) {
       console.log(`Project created {ID:${project._id}}`)
       return { successfull: true, projectData: projectData }
     } catch (error) {
-      console.error(`Error creating project {ID:${projectData._id}}`, error)
+      console.error(`Error creating project {Title:${projectData.title}}`, error)
       return { successfull: false, error: error }
     }
   }
@@ -69,9 +69,12 @@ async function getProjectById(id) {
 async function getProjectsByUserId(userId) {
   const projects = await projectSchema.find({ owner: userId })
 
-  if (projects.length != 0) {
+  if (projects.length > 0) {
     console.log(`Projects found for user {UserID:${userId}}`)
     return { successfull: true, projects: projects }
+  } else if (projects.length === 0) {
+    console.log(`Projects found for user {UserID:${userId}} (EMPTY)`)
+    return { successfull: false, error: 'Empty' }
   } else {
     console.error(`No projects found for user {UserID:${userId}}`)
     return { successfull: false, error: 'No projects found for this user' }

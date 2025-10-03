@@ -1,30 +1,84 @@
 // --- NOTE PROMISES --- //
 const noteSchema = require('../../models/noteModel')
 
+// PROMISES
+const userPromises = require('../user/promises')
+
 // FUNCTIONS
 // Create note
 async function createNote(noteData) {
-  return await newNote.save()
-}
+  const noteExists = await noteSchema.findOne({ title: noteData.title, owner: noteData.owner })
+  
+  if (!noteExists) {
+    try {
+      const note = await new noteSchema(noteData).save()
+      userPromises.addNoteToUser(note.owner, note._id)
 
-// Delete note
-async function deleteNote(id) {
-  return await noteSchema.findByIdAndDelete(id)
+      console.log(`Note created {ID:${note._id}}`)
+      return { successfull: true, noteData: note }
+    } catch (error) {
+      console.error(`Error creating note {Title:${noteData.title}}`, error)
+      return { successfull: false, error: error }
+    }
+  }
+
+  return { successfull: false, error: 'Note already exists' }
 }
 
 // Update note
 async function updateNote(id, noteData) {
-  return await noteSchema.findByIdAndUpdate(id, noteData, { new: true })
+    try {
+        await noteSchema.findByIdAndUpdate(id, noteData, { new: true })
+
+        console.log(`Note updated {ID:${id}}`)
+        return { successfull: true, noteData: noteData }
+    } catch (error) {
+        console.error(`Error updating note {ID:${id}}`, error)
+        return { successfull: false, error: error }
+    }
+}
+
+// Delete note
+async function deleteNote(id) {
+    try {
+        const note = await noteSchema.findOneAndDelete({_id: id})
+        userPromises.deleteNoteOfUser(note.owner, id)
+
+        console.log(`Note deleted {ID:${id}}`)
+        return { successfull: true }
+    } catch (error) {
+        console.error(`Error deleting note {ID:${id}}`, error)
+        return { successfull: false, error: error }
+    }
 }
 
 // Get note by ID
 async function getNoteById(id) {
-  return await noteSchema.findById(id)
+    const note = await noteSchema.findById(id)
+
+    if (note) {
+        console.error(`Note found {ID:${id}}`)
+        return { successfull: true, noteData: note }
+    } else {
+        console.error(`Note not found {ID:${id}}`)
+        return { successfull: false, error: 'Note not found' }
+    }
 }
 
 // Get notes by user
 async function getNotesByUser(userId) {
-  return await noteSchema.find({ owner: userId })
+    const notes = await noteSchema.find({ owner: userId })
+
+    if (notes.length > 0) {
+        console.error(`Notes found {Owner:${userId}}`)
+        return { successfull: true, notesData: notes }
+    } else if (notes.length === 0) {
+        console.log(`Notes found for user {UserID:${userId}} (EMPTY)`)
+        return { successfull: false, error: 'Empty' }
+    } else {
+        console.error(`No notes found {Owner:${userId}}`)
+        return { successfull: false, error: 'No notes found' }
+    }
 }
 
 // EXPORTS

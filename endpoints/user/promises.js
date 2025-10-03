@@ -82,7 +82,7 @@ async function addProjectToUser (userId, projectId) {
   if (user) {
     user.projects.push(projectId)
     await user.save()
-    
+
     console.log(`Project added to user {UserID:${userId}, ProjectID:${projectId}}`)
     return { successfull: true }
   } else {
@@ -107,6 +107,38 @@ async function deleteProjectOfUser (userId, projectId) {
   }
 }
 
+// Add note to a user
+async function addNoteToUser (userId, noteId) {
+  const user = await userSchema.findById(userId)
+
+  if (user) {
+    user.notes.push(noteId)
+    await user.save()
+
+    console.log(`Note added to user {UserID:${userId}, NoteID:${noteId}}`)
+    return { successfull: true }
+  } else {
+    console.error(`User not found {ID:${userId}}`)
+    return { successfull: false, error: 'User not found' }
+  }
+}
+
+// Delete note of a user
+async function deleteNoteOfUser (userId, noteId) {
+  const user = await userSchema.findById(userId)
+
+  if (user) {
+    user.notes.pull(noteId)
+    await user.save()
+
+    console.log(`Note deleted from user {UserID:${userId}, NoteID:${noteId}}`)
+    return { successfull: true }
+  } else {
+    console.error(`User not found {ID:${userId}}`)
+    return { successfull: false, error: 'User not found' }
+  }
+}
+
 // EXPORTS
 module.exports = ({
   loginUser,
@@ -115,5 +147,7 @@ module.exports = ({
   getUserByEmail,
   getProjectsOfUser,
   addProjectToUser,
-  deleteProjectOfUser
+  deleteProjectOfUser,
+  addNoteToUser,
+  deleteNoteOfUser
 })

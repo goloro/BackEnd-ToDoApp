@@ -7,14 +7,14 @@ async function createNote(noteData) {
   return await notePromises.createNote(noteData)
 }
 
-// Delete note
-async function deleteNote(id) {
-  return await notePromises.deleteNote(id)
-}
-
 // Update note
 async function updateNote(id, noteData) {
   return await notePromises.updateNote(id, noteData)
+}
+
+// Delete note
+async function deleteNote(id) {
+  return await notePromises.deleteNote(id)
 }
 
 // Get note by ID

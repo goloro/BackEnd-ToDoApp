@@ -27,7 +27,7 @@ router.get('/getById/:id', async (req, res) => {
 })
 
 // Get notes of a user
-router.get('/getNotesByUser/:userId', async (req, res) => {
+router.get('/getByUser/:userId', async (req, res) => {
   res.send(await noteController.getNotesByUser(req.params.userId))
 })
 
