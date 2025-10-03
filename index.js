@@ -17,13 +17,23 @@ mongoose.connect(process.env.MONGODB_URI)
 
 app.use(express.json());
 
-// Secure CORS configuration
-const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3001',
+// CORS Configuration - Two options available
+// Option 1: Open CORS (for development - less secure)
+const openCorsOptions = {
+  origin: '*',
+  credentials: false
+};
+
+// Option 2: Secure CORS (for production - more secure)
+const secureCorsOptions = {
+  origin: process.env.FRONTEND_URL || 'https://goloro.github.io/FrontEnd-ToDoApp',
   credentials: true,
   optionsSuccessStatus: 200
 };
-app.use(cors(corsOptions));
+
+// Choose which CORS to use (change this line to switch)
+app.use(cors(openCorsOptions));        // 🔓 CURRENTLY USING: Open CORS
+// app.use(cors(secureCorsOptions));   // 🔒 COMMENT/UNCOMMENT to use Secure CORS
 
 routerApi(app);
 
