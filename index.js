@@ -41,4 +41,3 @@ app.listen(app.get('port'), () => {
   console.log(`🚀 Server listening on port ${app.get('port')}`);
   console.log(`📭 URL -> http://localhost:${app.get('port')}/`);
 })
-
