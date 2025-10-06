@@ -10,7 +10,7 @@ async function loginUser (email, password) {
     console.log(`User logged in {Email:${user.email}, Password:${user.password}}`)
     return { successfull: true, userData: user }
   } else {
-    console.log(`User registered {Email:${userData.email}, Password:${userData.password}}`)
+    console.log(`Error logging user {Email:${email}, Password:${password}}`)
     return { successfull: false, error: 'Invalid email or password' }
   }
 }
