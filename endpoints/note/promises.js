@@ -12,7 +12,7 @@ async function createNote(noteData) {
   for (let i=0; i<userNotes.length; i++) {
     if (userNotes[i].title === "") {
       console.error(`Error creating note, User already has a note with empty title`, error)
-      return { successfull: false, error: 'User already has a note with empty title' }
+      return { successful: false, error: 'User already has a note with empty title' }
     }
   }
 
@@ -21,10 +21,10 @@ async function createNote(noteData) {
     userPromises.addNoteToUser(note.owner, note._id)
 
     console.log(`Note created {ID:${note._id}}`)
-    return { successfull: true, noteData: note }
+    return { successful: true, noteData: note }
   } catch (error) {
     console.error(`Error creating note {Title:${noteData.title}}`, error)
-    return { successfull: false, error: error }
+    return { successful: false, error: error }
   }
 }
 
@@ -34,10 +34,10 @@ async function updateNote(id, noteData) {
         await noteSchema.findByIdAndUpdate(id, noteData, { new: true })
 
         console.log(`Note updated {ID:${id}}`)
-        return { successfull: true, noteData: noteData }
+        return { successful: true, noteData: noteData }
     } catch (error) {
         console.error(`Error updating note {ID:${id}}`, error)
-        return { successfull: false, error: error }
+        return { successful: false, error: error }
     }
 }
 
@@ -48,10 +48,10 @@ async function deleteNote(id) {
         userPromises.deleteNoteOfUser(note.owner, id)
 
         console.log(`Note deleted {ID:${id}}`)
-        return { successfull: true }
+        return { successful: true }
     } catch (error) {
         console.error(`Error deleting note {ID:${id}}`, error)
-        return { successfull: false, error: error }
+        return { successful: false, error: error }
     }
 }
 
@@ -61,10 +61,10 @@ async function getNoteById(id) {
 
     if (note) {
         console.error(`Note found {ID:${id}}`)
-        return { successfull: true, noteData: note }
+        return { successful: true, noteData: note }
     } else {
         console.error(`Note not found {ID:${id}}`)
-        return { successfull: false, error: 'Note not found' }
+        return { successful: false, error: 'Note not found' }
     }
 }
 
@@ -74,13 +74,13 @@ async function getNotesByUser(userId) {
 
     if (notes.length > 0) {
         console.error(`Notes found {Owner:${userId}}`)
-        return { successfull: true, notesData: notes }
+        return { successful: true, notesData: notes }
     } else if (notes.length === 0) {
         console.log(`Notes found for user {UserID:${userId}} (EMPTY)`)
-        return { successfull: false, error: 'Empty' }
+        return { successful: false, error: 'Empty' }
     } else {
         console.error(`No notes found {Owner:${userId}}`)
-        return { successfull: false, error: 'No notes found' }
+        return { successful: false, error: 'No notes found' }
     }
 }
 

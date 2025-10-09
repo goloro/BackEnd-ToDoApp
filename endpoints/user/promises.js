@@ -8,10 +8,10 @@ async function loginUser (email, password) {
 
   if (user) {
     console.log(`User logged in {Email:${user.email}, Password:${user.password}}`)
-    return { successfull: true, userData: user }
+    return { successful: true, userData: user }
   } else {
     console.log(`Error logging user {Email:${email}, Password:${password}}`)
-    return { successfull: false, error: 'Invalid email or password' }
+    return { successful: false, error: 'Invalid email or password' }
   }
 }
 
@@ -26,14 +26,14 @@ async function registerUser (userData) {
       await new userSchema(userData).save()
 
       console.log(`User registered {Email:${userData.email}, Password:${userData.password}}`)
-      return { successfull: true, userData: userData }
+      return { successful: true, userData: userData }
     } catch (error) {
       console.error(`Error registering user {Email:${userData.email}, Password:${userData.password}}`, error)
-      return { successfull: false, error: error }
+      return { successful: false, error: error }
     }
   }
 
-  return { successfull: false, error: 'User already exists' }
+  return { successful: false, error: 'User already exists' }
 }
 
 // Get user by ID
@@ -42,10 +42,10 @@ async function getUserById (userId) {
 
   if (user) {
     console.log(`User found {ID:${userId}}`)
-    return { successfull: true, userData: user }
+    return { successful: true, userData: user }
   } else {
     console.error(`User not found {ID:${userId}}`)
-    return { successfull: false, error: 'User not found' }
+    return { successful: false, error: 'User not found' }
   }
 }
 
@@ -55,10 +55,10 @@ async function getUserByEmail (email) {
 
   if (user) {
     console.log(`User found {Email:${email}}`)
-    return { successfull: true, userData: user }
+    return { successful: true, userData: user }
   } else {
     console.error(`User not found {Email:${email}}`)
-    return { successfull: false, error: 'User not found' }
+    return { successful: false, error: 'User not found' }
   }
 }
 
@@ -68,10 +68,10 @@ async function getProjectsOfUser (userId) {
 
   if (user) {
     console.log(`User found {ID:${userId}}`)
-    return { successfull: true, projects: user.projects }
+    return { successful: true, projects: user.projects }
   } else {
     console.error(`User not found {ID:${userId}}`)
-    return { successfull: false, error: 'User not found' }
+    return { successful: false, error: 'User not found' }
   }
 }
 
@@ -84,10 +84,10 @@ async function addProjectToUser (userId, projectId) {
     await user.save()
 
     console.log(`Project added to user {UserID:${userId}, ProjectID:${projectId}}`)
-    return { successfull: true }
+    return { successful: true }
   } else {
     console.error(`User not found {ID:${userId}}`)
-    return { successfull: false, error: 'User not found' }
+    return { successful: false, error: 'User not found' }
   }
 }
 
@@ -100,10 +100,10 @@ async function deleteProjectOfUser (userId, projectId) {
     await user.save()
 
     console.log(`Project deleted from user {UserID:${userId}, ProjectID:${projectId}}`)
-    return { successfull: true }
+    return { successful: true }
   } else {
     console.error(`User not found {ID:${userId}}`)
-    return { successfull: false, error: 'User not found' }
+    return { successful: false, error: 'User not found' }
   }
 }
 
@@ -116,10 +116,10 @@ async function addNoteToUser (userId, noteId) {
     await user.save()
 
     console.log(`Note added to user {UserID:${userId}, NoteID:${noteId}}`)
-    return { successfull: true }
+    return { successful: true }
   } else {
     console.error(`User not found {ID:${userId}}`)
-    return { successfull: false, error: 'User not found' }
+    return { successful: false, error: 'User not found' }
   }
 }
 
@@ -132,10 +132,10 @@ async function deleteNoteOfUser (userId, noteId) {
     await user.save()
 
     console.log(`Note deleted from user {UserID:${userId}, NoteID:${noteId}}`)
-    return { successfull: true }
+    return { successful: true }
   } else {
     console.error(`User not found {ID:${userId}}`)
-    return { successfull: false, error: 'User not found' }
+    return { successful: false, error: 'User not found' }
   }
 }
 

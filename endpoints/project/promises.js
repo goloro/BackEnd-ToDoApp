@@ -15,14 +15,14 @@ async function createProject(projectData) {
       userPromises.addProjectToUser(project.owner, project._id)
 
       console.log(`Project created {ID:${project._id}}`)
-      return { successfull: true, projectData: projectData }
+      return { successful: true, projectData: projectData }
     } catch (error) {
       console.error(`Error creating project {Title:${projectData.title}}`, error)
-      return { successfull: false, error: error }
+      return { successful: false, error: error }
     }
   }
 
-  return { successfull: false, error: 'Project already exists' }
+  return { successful: false, error: 'Project already exists' }
 }
 
 // Update project
@@ -31,10 +31,10 @@ async function updateProject(id, projectData) {
     await projectSchema.findByIdAndUpdate(id, projectData, { new: true })
 
     console.log(`Project updated {ID:${id}}`)
-    return { successfull: true, projectData: projectData }
+    return { successful: true, projectData: projectData }
   } catch (error) {
     console.error(`Error updating project {ID:${id}}`, error)
-    return { successfull: false, error: error }
+    return { successful: false, error: error }
   }
 }
 
@@ -45,10 +45,10 @@ async function deleteProject(id) {
     userPromises.deleteProjectOfUser(project.owner, id)
 
     console.log(`Project deleted {ID:${id}}`)
-    return { successfull: true }
+    return { successful: true }
   } catch (error) {
     console.error(`Error deleting project {ID:${id}}`, error)
-    return { successfull: false, error: error }
+    return { successful: false, error: error }
   }
 }
 
@@ -58,10 +58,10 @@ async function getProjectById(id) {
 
   if (project) {
     console.log(`Project found {ID:${id}}`)
-    return { successfull: true, projectData: project }
+    return { successful: true, projectData: project }
   } else {
     console.error(`Project not found {ID:${id}}`)
-    return { successfull: false, error: 'Project not found' }
+    return { successful: false, error: 'Project not found' }
   }
 }
 
@@ -71,13 +71,13 @@ async function getProjectsByUserId(userId) {
 
   if (projects.length > 0) {
     console.log(`Projects found for user {UserID:${userId}}`)
-    return { successfull: true, projects: projects }
+    return { successful: true, projects: projects }
   } else if (projects.length === 0) {
     console.log(`Projects found for user {UserID:${userId}} (EMPTY)`)
-    return { successfull: false, error: 'Empty' }
+    return { successful: false, error: 'Empty' }
   } else {
     console.error(`No projects found for user {UserID:${userId}}`)
-    return { successfull: false, error: 'No projects found for this user' }
+    return { successful: false, error: 'No projects found for this user' }
   }
 }
 
