@@ -12,7 +12,7 @@ async function createNote(noteData) {
   for (let i=0; i<userNotes.length; i++) {
     if (userNotes[i].title === "") {
       console.error(`Error creating note, User already has a note with empty title`, error)
-      return { successful: false, error: 'User already has a note with empty title' }
+      return { successful: false, error: 'User already has a note with empty title', alreadyEmpty: true}
     }
   }
 
