@@ -12,7 +12,7 @@ function endpointsApi(app) {
   app.use('/', router);
 
   router.use('/start', async (req, res) => {
-    res.json({ successfull: true, message: '🚀 Starting Backend at URL: https://backend-todoapp-m30z.onrender.com' });
+    res.json({ successful: true, message: '🚀 Starting Backend at URL: https://backend-todoapp-m30z.onrender.com' });
   });
 
   router.use('/user', userRouter);
