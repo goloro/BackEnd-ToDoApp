@@ -7,22 +7,25 @@ const userPromises = require('../user/promises')
 // FUNCTIONS
 // Create note
 async function createNote(noteData) {
-  const noteExists = await noteSchema.findOne({ title: noteData.title, owner: noteData.owner })
-  
-  if (!noteExists) {
-    try {
-      const note = await new noteSchema(noteData).save()
-      userPromises.addNoteToUser(note.owner, note._id)
+  const userNotes = await noteSchema.find()
 
-      console.log(`Note created {ID:${note._id}}`)
-      return { successfull: true, noteData: note }
-    } catch (error) {
-      console.error(`Error creating note {Title:${noteData.title}}`, error)
-      return { successfull: false, error: error }
+  for (let i=0; i<userNotes.length; i++) {
+    if (userNotes[i].title === "") {
+      console.error(`Error creating note, User already has a note with empty title`, error)
+      return { successfull: false, error: 'User already has a note with empty title' }
     }
   }
 
-  return { successfull: false, error: 'Note already exists' }
+  try {
+    const note = await new noteSchema(noteData).save()
+    userPromises.addNoteToUser(note.owner, note._id)
+
+    console.log(`Note created {ID:${note._id}}`)
+    return { successfull: true, noteData: note }
+  } catch (error) {
+    console.error(`Error creating note {Title:${noteData.title}}`, error)
+    return { successfull: false, error: error }
+  }
 }
 
 // Update note
