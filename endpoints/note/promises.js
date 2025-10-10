@@ -31,9 +31,7 @@ async function createNote(noteData) {
 // Update note
 async function updateNote(id, noteData) {
     try {
-        const note = await noteSchema.findById(id, noteData, { new: true })
-        note.title = noteData.title
-        note.save()
+        const note = await noteSchema.findByIdAndUpdate(id, noteData, { new: false })
 
         console.log(`Note updated {ID:${id}}`)
         return { successful: true, noteData: noteData }
