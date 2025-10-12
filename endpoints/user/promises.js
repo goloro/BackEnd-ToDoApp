@@ -1,6 +1,10 @@
 // --- USER PROMISES --- //
 const userSchema = require('../../models/userModel')
 
+// PROMISES
+const projectPromises = require('../project/promises')
+const notePromises = require('../note/promises')
+
 // FUNCTIONS
 // Login
 async function loginUser (email, password) {
@@ -35,6 +39,11 @@ async function registerUser (userData) {
 
   return { successful: false, error: 'User already exists' }
 }
+
+// Delete
+// TODO: Delete all projects and notes of the user
+
+// Update
 
 // Get user by ID
 async function getUserById (userId) {

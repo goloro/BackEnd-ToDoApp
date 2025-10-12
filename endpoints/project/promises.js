@@ -3,6 +3,7 @@ const projectSchema = require('../../models/projectModel')
 
 // PROMISES
 const userPromises = require('../user/promises')
+const taskPromises = require('../task/promises')
 
 // FUNCTIONS
 // Create project
@@ -43,6 +44,11 @@ async function deleteProject(id) {
   try {
     const project = await projectSchema.findByIdAndDelete(id)
     userPromises.deleteProjectOfUser(project.owner, id)
+
+    const tasks = project.tasks;
+    for (let i = 0; i < tasks.length; i++) {
+      await taskPromises.deleteTask(tasks[i]);
+    }
 
     console.log(`Project deleted {ID:${id}}`)
     return { successful: true }
