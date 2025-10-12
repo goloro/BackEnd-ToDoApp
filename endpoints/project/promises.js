@@ -15,7 +15,7 @@ async function createProject(projectData) {
       userPromises.addProjectToUser(project.owner, project._id)
 
       console.log(`Project created {ID:${project._id}}`)
-      return { successful: true, projectData: projectData }
+      return { successful: true, projectData: project }
     } catch (error) {
       console.error(`Error creating project {Title:${projectData.title}}`, error)
       return { successful: false, error: error }
