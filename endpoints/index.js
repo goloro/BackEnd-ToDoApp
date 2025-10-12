@@ -4,6 +4,7 @@ const express = require('express');
 const userRouter = require('./user/router');
 const projectRouter = require('./project/router');
 const noteRouter = require('./note/router');
+const taskRouter = require('./task/router');
 
 // ENDPOINTS
 function endpointsApi(app) {
@@ -20,6 +21,8 @@ function endpointsApi(app) {
   router.use('/project', projectRouter);
 
   router.use('/note', noteRouter);
+
+  router.use('/task', taskRouter)
 }
 
 // EXPORTS

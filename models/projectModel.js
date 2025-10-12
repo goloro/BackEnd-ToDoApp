@@ -2,16 +2,11 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-// Sub-schemas
+// Sub-schema
 const colorsSchema = new Schema({
   background1: { type: String, default: '#a4dfef' },
   background2: { type: String, default: '#00c6fb' },
   text: { type: String, default: '#000000' }
-})
-
-const taskSchema = new Schema({
-  title: { type: String, required: true },
-  status: { type: String, enum: ['checked', 'unchecked'], default: 'unchecked' }
 })
 
 // Main project schema
@@ -27,7 +22,7 @@ const projectSchema = new Schema({
     }
   },
   documentation: { type: String },
-  tasks: [{ type: taskSchema }],
+  tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 })

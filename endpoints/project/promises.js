@@ -28,10 +28,10 @@ async function createProject(projectData) {
 // Update project
 async function updateProject(id, projectData) {
   try {
-    await projectSchema.findByIdAndUpdate(id, projectData, { new: true })
+    const project = await projectSchema.findByIdAndUpdate(id, projectData, { new: true })
 
     console.log(`Project updated {ID:${id}}`)
-    return { successful: true, projectData: projectData }
+    return { successful: true, projectData: project }
   } catch (error) {
     console.error(`Error updating project {ID:${id}}`, error)
     return { successful: false, error: error }
@@ -81,11 +81,45 @@ async function getProjectsByUserId(userId) {
   }
 }
 
+// Add task to project
+async function addTaskToProject(projectId, taskId) {
+  const project = await projectSchema.findById(projectId)
+
+  if (project) {
+    project.tasks.push(taskId)
+    await project.save()
+
+    console.log(`Task {ID:${taskId}} added to project {ID:${projectId}}`)
+    return { successful: true }
+  } else {
+    console.error(`Project not found {ID:${projectId}}`)
+    return { successful: false, error: 'Project not found' }
+  }
+}
+
+// Delete task of a project
+async function deleteTaskOfProject(projectId, taskId) {
+  const project = await projectSchema.findById(projectId)
+
+  if (project) {
+    project.tasks.pull(taskId)
+    await project.save()
+
+    console.log(`Task {ID:${taskId}} deleted from project {ID:${projectId}}`)
+    return { successful: true }
+  } else {
+    console.error(`Project not found {ID:${projectId}}`)
+    return { successful: false, error: 'Project not found' }
+  }
+}
+
 // EXPORTS
 module.exports = ({
   createProject,
   updateProject,
   deleteProject,
   getProjectById,
-  getProjectsByUserId
+  getProjectsByUserId,
+  addTaskToProject,
+  deleteTaskOfProject
 })
