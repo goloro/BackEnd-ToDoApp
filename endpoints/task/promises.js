@@ -9,11 +9,13 @@ const projectPromises = require('../project/promises')
 async function createTask(taskData) {
     const projectTasks = await taskSchema.find({ project: taskData.project })
   
-    for (let i=0; i<projectTasks.length; i++) {
-      if (projectTasks[i].title === "") {
-        console.error(`Error creating task, Project already has a task with empty title`)
-        return { successful: false, error: 'Project already has a task with empty title', alreadyEmpty: true}
-      }
+    if (projectTasks) {
+        for (let i=0; i<projectTasks.length; i++) {
+            if (projectTasks[i].title === "") {
+                console.error(`Error creating task, Project already has a task with empty title`)
+                return { successful: false, error: 'Project already has a task with empty title', alreadyEmpty: true}
+            }
+        }
     }
   
     try {
