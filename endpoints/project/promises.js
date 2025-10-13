@@ -1,10 +1,6 @@
 // --- PROJECT PROMISES --- //
 const projectSchema = require('../../models/projectModel')
 
-// PROMISES
-const userPromises = require('../user/promises')
-const taskPromises = require('../task/promises')
-
 // FUNCTIONS
 // Create project
 async function createProject(projectData) {
@@ -13,7 +9,6 @@ async function createProject(projectData) {
   if (!projectExists) {
     try {
       const project = await new projectSchema(projectData).save()
-      userPromises.addProjectToUser(project.owner, project._id)
 
       console.log(`Project created {ID:${project._id}}`)
       return { successful: true, projectData: project }
@@ -43,15 +38,9 @@ async function updateProject(id, projectData) {
 async function deleteProject(id) {
   try {
     const project = await projectSchema.findByIdAndDelete(id)
-    userPromises.deleteProjectOfUser(project.owner, id)
-
-    const tasks = project.tasks;
-    for (let i = 0; i < tasks.length; i++) {
-      await taskPromises.deleteTask(tasks[i]);
-    }
 
     console.log(`Project deleted {ID:${id}}`)
-    return { successful: true }
+    return { successful: true, projectData: project }
   } catch (error) {
     console.error(`Error deleting project {ID:${id}}`, error)
     return { successful: false, error: error }

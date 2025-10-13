@@ -1,10 +1,18 @@
 // --- PROJECT CONTROLLER --- //
 const projectPromises = require('./promises');
+const userPromises = require('../user/promises');
 
 // FUNCTIONS
 // Create project
 async function createProject(projectData) {
-  return await projectPromises.createProject(projectData)
+  const result = await projectPromises.createProject(projectData)
+  
+  // Si el proyecto se creó exitosamente, agregarlo al usuario
+  if (result.successful && result.projectData) {
+    await userPromises.addProjectToUser(result.projectData.owner, result.projectData._id)
+  }
+  
+  return result
 }
 
 // Update project
@@ -14,7 +22,14 @@ async function updateProject(id, projectData) {
 
 // Delete project
 async function deleteProject(id) {
-  return await projectPromises.deleteProject(id)
+  const result = await projectPromises.deleteProject(id)
+  
+  // Si el proyecto se eliminó exitosamente, también eliminarlo del usuario
+  if (result.successful && result.projectData) {
+    await userPromises.deleteProjectOfUser(result.projectData.owner, id)
+  }
+  
+  return result
 }
 
 // Get project by ID
