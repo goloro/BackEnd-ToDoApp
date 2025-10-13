@@ -1,9 +1,6 @@
 // --- NOTE PROMISES --- //
 const noteSchema = require('../../models/noteModel')
 
-// PROMISES
-const userPromises = require('../user/promises')
-
 // FUNCTIONS
 // Create note
 async function createNote(noteData) {
@@ -17,10 +14,9 @@ async function createNote(noteData) {
         }
     }
   }
-  
+
   try {
     const note = await new noteSchema(noteData).save()
-    userPromises.addNoteToUser(note.owner, note._id)
 
     console.log(`Note created {ID:${note._id}}`)
     return { successful: true, noteData: note }
@@ -47,10 +43,9 @@ async function updateNote(id, noteData) {
 async function deleteNote(id) {
     try {
         const note = await noteSchema.findOneAndDelete({_id: id})
-        userPromises.deleteNoteOfUser(note.owner, id)
-
+        
         console.log(`Note deleted {ID:${id}}`)
-        return { successful: true }
+        return { successful: true, noteData: note } // Devolver la nota para que el controlador pueda manejar la eliminación del usuario
     } catch (error) {
         console.error(`Error deleting note {ID:${id}}`, error)
         return { successful: false, error: error }
