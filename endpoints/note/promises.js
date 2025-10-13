@@ -17,7 +17,7 @@ async function createNote(noteData) {
         }
     }
   }
-
+  
   try {
     const note = await new noteSchema(noteData).save()
     userPromises.addNoteToUser(note.owner, note._id)
