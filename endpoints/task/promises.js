@@ -1,9 +1,6 @@
 // --- TASK PROMISES --- //
 const taskSchema = require('../../models/taskModel')
 
-// PROMISES
-const projectPromises = require('../project/promises')
-
 // FUNCTIONS
 // Create task
 async function createTask(taskData) {
@@ -20,7 +17,6 @@ async function createTask(taskData) {
   
     try {
       const task = await new taskSchema(taskData).save()
-      projectPromises.addTaskToProject(task.project, task._id)
 
       console.log(`Task created {ID:${task._id}}`)
       return { successful: true, taskData: task }
@@ -34,7 +30,6 @@ async function createTask(taskData) {
 async function deleteTask(id, projectId) {
     try {
         const task = await taskSchema.findOneAndDelete({_id: id})
-        projectPromises.deleteTaskOfProject(projectId, id)
 
         console.log(`Task deleted {ID:${id}}`)
         return { successful: true, taskData: task }
