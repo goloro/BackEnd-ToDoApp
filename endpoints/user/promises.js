@@ -27,10 +27,10 @@ async function registerUser (userData) {
     userData.icon = 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortFlat&facialHairType=Blank&clotheType=Hoodie&eyeType=Happy&eyebrowType=Default&mouthType=Smile&skinColor=Light&hairColor=BrownDark'
 
     try {
-      await new userSchema(userData).save()
+      const user = await new userSchema(userData).save()
 
-      console.log(`User registered {Email:${userData.email}, Password:${userData.password}}`)
-      return { successful: true, userData: userData }
+      console.log(`User registered {Email:${user.email}, Password:${user.password}}`)
+      return { successful: true, userData: user }
     } catch (error) {
       console.error(`Error registering user {Email:${userData.email}, Password:${userData.password}}`, error)
       return { successful: false, error: error }
