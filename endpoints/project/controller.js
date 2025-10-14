@@ -22,14 +22,22 @@ async function updateProject(id, projectData) {
 
 // Delete project
 async function deleteProject(id) {
-  const result = await projectPromises.deleteProject(id)
-  
-  // Si el proyecto se eliminó exitosamente, también eliminarlo del usuario
-  if (result.successful && result.projectData) {
-    await userPromises.deleteProjectOfUser(result.projectData.owner, id)
+  try {
+    const result = await projectPromises.deleteProject(id)
+    
+    // Si el proyecto se eliminó exitosamente, también eliminarlo del usuario
+    if (result.successful && result.projectData) {
+      const userResult = await userPromises.deleteProjectOfUser(result.projectData.owner, id)
+      if (!userResult.successful) {
+        console.warn(`Project deleted but failed to remove from user: ${userResult.error}`)
+      }
+    }
+    
+    return result
+  } catch (error) {
+    console.error(`Error in deleteProject controller:`, error)
+    return { successful: false, error: error }
   }
-  
-  return result
 }
 
 // Get project by ID

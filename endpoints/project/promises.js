@@ -37,7 +37,22 @@ async function updateProject(id, projectData) {
 // Delete project
 async function deleteProject(id) {
   try {
-    const project = await projectSchema.findByIdAndDelete(id)
+    // Primero obtenemos el proyecto con sus tasks
+    const project = await projectSchema.findById(id)
+    
+    if (!project) {
+      return { successful: false, error: 'Project not found' }
+    }
+
+    // Eliminar todas las tasks asociadas al proyecto
+    if (project.tasks && project.tasks.length > 0) {
+      const taskSchema = require('../../models/taskModel')
+      await taskSchema.deleteMany({ project: id })
+      console.log(`Deleted ${project.tasks.length} tasks associated with project {ID:${id}}`)
+    }
+
+    // Ahora eliminar el proyecto
+    await projectSchema.findByIdAndDelete(id)
 
     console.log(`Project deleted {ID:${id}}`)
     return { successful: true, projectData: project }
