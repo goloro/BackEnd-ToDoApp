@@ -16,6 +16,16 @@ router.post('/register', async (req, res) => {
   res.send(await userController.registerUser(req.body))
 })
 
+// Delete user
+router.delete('/delete/:id', async (req, res) => {
+  res.send(await userController.deleteUser(req.params.id))
+})
+
+// Update user
+router.put('/update/:id', async (req, res) => {
+  res.send(await userController.updateUser(req.params.id, req.body))
+})
+
 // Get user by ID
 router.get ('/getById/:id', async (req, res) => {
   res.send(await userController.getUserById(req.params.id))

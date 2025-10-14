@@ -12,6 +12,16 @@ async function registerUser(userData) {
   return await userPromises.registerUser(userData)
 }
 
+// Delete
+async function deleteUser(userId) {
+  return await userPromises.deleteUser(userId)
+}
+
+// Update
+async function updateUser(userId, userData) {
+  return await userPromises.updateUser(userId, userData)
+}
+
 // Get user by ID
 async function getUserById(userId) {
   return await userPromises.getUserById(userId)

@@ -41,9 +41,42 @@ async function registerUser (userData) {
 }
 
 // Delete
-// TODO: Delete all projects and notes of the user
+async function deleteUser (userId) {
+  try {
+    const user = await userSchema.findById(userId)
+
+    if (user) {
+      for (let i = 0; i < user.projects.length; i++) {
+        await projectPromises.deleteProject(user.projects[i])
+      }
+
+      for (let i = 0; i < user.notes.length; i++) {
+        await notePromises.deleteNote(user.notes[i])
+      }
+    }
+
+    await userSchema.findByIdAndDelete(userId)
+
+    console.log(`User deleted {ID:${userId}}`)
+    return { successful: true }
+  } catch (error) {
+    console.error(`Error deleting user {ID:${userId}}`, error)
+    return { successful: false, error: error }
+  }
+}
 
 // Update
+async function updateUser (userId, userData) {
+  try {
+    const user = await userSchema.findByIdAndUpdate(userId, userData, { new: false })
+
+    console.log(`User updated {ID:${userId}}`)
+    return { successful: true, userData: user }
+  } catch (error) {
+    console.error(`Error updating user {ID:${userId}}`, error)
+    return { successful: false, error: error }
+  }
+}
 
 // Get user by ID
 async function getUserById (userId) {
@@ -152,6 +185,8 @@ async function deleteNoteOfUser (userId, noteId) {
 module.exports = ({
   loginUser,
   registerUser,
+  deleteUser,
+  updateUser,
   getUserById,
   getUserByEmail,
   getProjectsOfUser,
