@@ -41,6 +41,8 @@ async function getProjectsOfUser(userId) {
 module.exports = ({
   loginUser,
   registerUser,
+  deleteUser,
+  updateUser,
   getUserById,
   getUserByEmail,
   getProjectsOfUser
